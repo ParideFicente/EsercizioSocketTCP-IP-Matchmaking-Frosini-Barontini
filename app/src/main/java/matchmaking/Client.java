@@ -39,6 +39,14 @@ public class Client {
             out.println(nickname);                           //invia il nickname al server
             out.println(livello);                             //invia il livello al server
 
+            System.out.println("In attesa di altri giocatori...");
+
+            String risposta = in.readLine();                 //attende la risposta del server
+
+            if (risposta != null) {
+                System.out.println("Il server dice: " + risposta);
+            }
+
             s.close();                                       //chiusura della connessione
 
         } catch (Exception e) {

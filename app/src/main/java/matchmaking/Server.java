@@ -67,64 +67,70 @@ public class Server {
 
     public static synchronized void controllaPartite() {
 
-        ArrayList<Giocatore> gruppo = new ArrayList<>();          //lista dei giocatori della partita
+        boolean partitaCreata = true;
 
-        for (int i = 0; i < giocatori.size(); i++) {
+        while (partitaCreata) {                                  //controlla se si possono creare altre partite
 
-            gruppo.clear();
+            partitaCreata = false;
 
-            Giocatore primo = giocatori.get(i);
-            gruppo.add(primo);
+            for (int i = 0; i < giocatori.size(); i++) {
 
-            for (int j = 0; j < giocatori.size(); j++) {
+                ArrayList<Giocatore> gruppo = new ArrayList<>();  //lista dei giocatori della partita
 
-                Giocatore altro = giocatori.get(j);
+                Giocatore primo = giocatori.get(i);
+                gruppo.add(primo);
 
-                if (altro != primo &&
-                    altro.livello >= primo.livello &&
-                    altro.livello - primo.livello <= dml) {
+                for (int j = 0; j < giocatori.size(); j++) {
 
-                    gruppo.add(altro);                           //aggiunge un giocatore compatibile
+                    Giocatore altro = giocatori.get(j);
+
+                    if (altro != primo &&
+                        altro.livello >= primo.livello &&
+                        (long) altro.livello - primo.livello <= dml) {
+
+                        gruppo.add(altro);                       //aggiunge un giocatore compatibile
+                    }
+
+                    if (gruppo.size() == ngg) {
+                        break;
+                    }
                 }
 
                 if (gruppo.size() == ngg) {
-                    break;
-                }
-            }
 
-            if (gruppo.size() == ngg) {
+                    System.out.println("Partita trovata!");
 
-                System.out.println("Partita trovata!");
+                    //invia la lista dei compagni ai giocatori
+                    for (int k = 0; k < gruppo.size(); k++) {
 
-                //invia la lista dei compagni ai giocatori
-                for (int k = 0; k < gruppo.size(); k++) {
+                        Giocatore g = gruppo.get(k);
 
-                    Giocatore g = gruppo.get(k);
+                        String messaggio = "Partita trovata! Compagni: ";
 
-                    String messaggio = "Partita trovata! Compagni: ";
+                        for (int h = 0; h < gruppo.size(); h++) {
 
-                    for (int h = 0; h < gruppo.size(); h++) {
+                            Giocatore compagno = gruppo.get(h);
 
-                        Giocatore compagno = gruppo.get(h);
-
-                        if (compagno != g) {
-                            messaggio += compagno.nickname + " - "
-                                      + compagno.ip + " - Livello "
-                                      + compagno.livello + "; ";
+                            if (compagno != g) {
+                                messaggio += compagno.nickname + " - "
+                                          + compagno.ip + " - Livello "
+                                          + compagno.livello + "; ";
+                            }
                         }
+
+                        g.inviaMessaggio(messaggio);
                     }
 
-                    g.inviaMessaggio(messaggio);
+                    //rimuove i giocatori che hanno trovato una partita
+                    for (int k = 0; k < gruppo.size(); k++) {
+                        giocatori.remove(gruppo.get(k));
+                    }
+
+                    System.out.println("Giocatori rimasti in attesa: " + giocatori.size());
+
+                    partitaCreata = true;
+                    break;
                 }
-
-                //rimuove i giocatori che hanno trovato una partita
-                for (int k = 0; k < gruppo.size(); k++) {
-                    giocatori.remove(gruppo.get(k));
-                }
-
-                System.out.println("Giocatori rimasti in attesa: " + giocatori.size());
-
-                return;
             }
         }
     }
