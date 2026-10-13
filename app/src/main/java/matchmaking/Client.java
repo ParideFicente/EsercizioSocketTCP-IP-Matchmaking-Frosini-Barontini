@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class Client {
 
@@ -20,15 +21,23 @@ public class Client {
 
             System.out.println("Connesso al server!");
 
-            //creazione degli stream per comunicare con il server
-            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+            PrintWriter out = new PrintWriter(s.getOutputStream(), true);       //creazione degli stream per comunicare con il server
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
             String messaggio = in.readLine();                //legge il messaggio inviato dal server
 
             System.out.println("Il server dice: " + messaggio);
 
-            out.println("Ciao server!");                     //invia un messaggio al server
+            Scanner tastiera = new Scanner(System.in);       //lettura dei dati dalla tastiera
+
+            System.out.print("Inserisci nickname: ");
+            String nickname = tastiera.nextLine();           //nickname del giocatore
+
+            System.out.print("Inserisci livello: ");
+            int livello = tastiera.nextInt();                //livello del giocatore
+
+            out.println(nickname);                           //invia il nickname al server
+            out.println(livello);                             //invia il livello al server
 
             s.close();                                       //chiusura della connessione
 

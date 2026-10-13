@@ -24,17 +24,18 @@ public class Server {
 
             System.out.println("Client connesso: " + s.getInetAddress());       //stampa l'indirizzo IP del client che si è collegato
 
-            //creazione degli stream per comunicare con il client
-            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+            PrintWriter out = new PrintWriter(s.getOutputStream(), true);       //creazione degli stream per comunicare con il client
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
-            out.println("Benvenuto client!");                       //invia un messaggio al client
+            out.println("Benvenuto client!");                    //invia un messaggio al client
 
-            String messaggio = in.readLine();                       //legge il messaggio inviato dal client
+            String nickname = in.readLine();                     //legge il nickname inviato dal client
+            int livello = Integer.parseInt(in.readLine());       //legge il livello e lo converte in numero
 
-            System.out.println("Il client dice: " + messaggio);     //stampa il messaggio ricevuto
+            System.out.println("Nickname: " + nickname);
+            System.out.println("Livello: " + livello);
 
-            s.close();                                              //chiusura della connessione
+            s.close();                                           //chiusura della connessione
             socketAccettazione.close();
 
         } catch (Exception e) {
