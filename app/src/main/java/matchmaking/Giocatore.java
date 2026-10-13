@@ -17,6 +17,7 @@ public class Giocatore implements Runnable {
 
     Socket s;                                 //connessione del giocatore
     PrintWriter out;                          //stream per inviare messaggi
+    boolean partitaTrovata = false;           //indica se il giocatore ha trovato una partita
 
     public Giocatore(Socket s) {
         this.s = s;
@@ -33,7 +34,18 @@ public class Giocatore implements Runnable {
             out.println("Benvenuto client!");                       //invia un messaggio al client
 
             nickname = in.readLine();                               //legge il nickname del giocatore
-            livello = Integer.parseInt(in.readLine());              //legge il livello del giocatore
+
+            if (nickname == null) {
+                return;
+            }
+
+            String datoLivello = in.readLine();
+
+            if (datoLivello == null) {
+                return;
+            }
+
+            livello = Integer.parseInt(datoLivello);                //legge il livello del giocatore
 
             System.out.println("Nickname: " + nickname);
             System.out.println("Livello: " + livello);
@@ -41,20 +53,32 @@ public class Giocatore implements Runnable {
 
             Server.aggiungiGiocatore(this);                          //aggiunge il giocatore al server
 
-            //la connessione rimane aperta fino al matchmaking
+            while (in.readLine() != null) {                          //attende finche il client rimane connesso
+            }
 
         } catch (Exception e) {
-            System.out.println("Errore: " + e.getMessage());
+
+            if (!partitaTrovata) {
+                System.out.println("Errore: " + e.getMessage());
+            }
+
+        } finally {
+
+            if (!partitaTrovata) {
+                Server.rimuoviGiocatore(this);                       //rimuove il giocatore disconnesso
+            }
 
             try {
-                s.close();
-            } catch (Exception ex) {
-                System.out.println("Errore chiusura: " + ex.getMessage());
+                s.close();                                          //chiusura della connessione
+            } catch (Exception e) {
+                System.out.println("Errore chiusura: " + e.getMessage());
             }
         }
     }
 
     public void inviaMessaggio(String messaggio) {
+
+        partitaTrovata = true;                                       //indica che la partita e stata trovata
 
         out.println(messaggio);                                      //invia il risultato al client
 

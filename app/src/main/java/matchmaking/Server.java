@@ -65,6 +65,15 @@ public class Server {
         controllaPartite();                                      //controlla se si può creare una partita
     }
 
+    public static synchronized void rimuoviGiocatore(Giocatore g) {
+
+        if (giocatori.remove(g)) {                               //rimuove il giocatore se presente
+
+            System.out.println("Giocatore disconnesso: " + g.nickname);
+            System.out.println("Giocatori in attesa: " + giocatori.size());
+        }
+    }
+
     public static synchronized void controllaPartite() {
 
         boolean partitaCreata = true;
