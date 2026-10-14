@@ -69,9 +69,9 @@ public class ServerGUI extends javax.swing.JFrame {
         });
     }
 
-    //il layout e gestito dal GUI Builder di NetBeans
+    
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    
     private void initComponents() {
 
         lblTitolo = new javax.swing.JLabel();
@@ -90,7 +90,7 @@ public class ServerGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MatchMaking PvP - Server");
 
-        lblTitolo.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
+        lblTitolo.setFont(new java.awt.Font("SansSerif", 1, 20)); 
         lblTitolo.setText("SERVER MATCHMAKING PVP");
 
         lblNGG.setText("Giocatori per gruppo:");
@@ -182,15 +182,15 @@ public class ServerGUI extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void btnAvviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvviaActionPerformed
+    private void btnAvviaActionPerformed(java.awt.event.ActionEvent evt) {
         avviaServer();
-    }//GEN-LAST:event_btnAvviaActionPerformed
+    }
 
-    private void btnFermaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFermaActionPerformed
+    private void btnFermaActionPerformed(java.awt.event.ActionEvent evt) {
         fermaServer();
-    }//GEN-LAST:event_btnFermaActionPerformed
+    }
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -201,7 +201,7 @@ public class ServerGUI extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+   
     private javax.swing.JButton btnAvvia;
     private javax.swing.JButton btnFerma;
     private javax.swing.JLabel lblPorta;
@@ -214,5 +214,5 @@ public class ServerGUI extends javax.swing.JFrame {
     private javax.swing.JTextField txtDML;
     private javax.swing.JTextField txtNGG;
     private javax.swing.JTextArea txtEventi;
-    // End of variables declaration//GEN-END:variables
+   
 }
