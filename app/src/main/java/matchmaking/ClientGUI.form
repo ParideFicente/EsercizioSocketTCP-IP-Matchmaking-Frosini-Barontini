@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -19,62 +20,63 @@
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
   </AuxValues>
+
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-        <Group type="102" attributes="0">
-          <EmptySpace min="24" pref="24" max="24" attributes="0"/>
-          <Group type="103" groupAlignment="0" attributes="0">
-            <Component id="lblTitolo" min="-2" max="-2" attributes="0"/>
-            <Group type="102" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace min="24" pref="24" max="24" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                <Component id="lblNickname" min="-2" max="-2" attributes="0"/>
-                <Component id="lblLivello" min="-2" max="-2" attributes="0"/>
-                <Component id="lblIP" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblTitolo" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblNickname" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblLivello" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblIP" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="22" pref="22" max="22" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="txtNickname" pref="340" max="32767" attributes="0"/>
+                          <Component id="txtLivello" max="32767" attributes="0"/>
+                          <Component id="txtIP" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="btnCerca" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblStato" min="-2" max="-2" attributes="0"/>
+                  <Component id="scrollRisultato" pref="464" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="22" pref="22" max="22" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                <Component id="txtNickname" pref="340" max="32767" attributes="0"/>
-                <Component id="txtLivello" max="32767" attributes="0"/>
-                <Component id="txtIP" max="32767" attributes="0"/>
-              </Group>
-            </Group>
-            <Component id="btnCerca" min="-2" max="-2" attributes="0"/>
-            <Component id="lblStato" min="-2" max="-2" attributes="0"/>
-            <Component id="scrollRisultato" pref="464" max="32767" attributes="0"/>
+              <EmptySpace min="24" pref="24" max="24" attributes="0"/>
           </Group>
-          <EmptySpace min="24" pref="24" max="24" attributes="0"/>
-        </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-        <Group type="102" attributes="0">
-          <EmptySpace min="24" pref="24" max="24" attributes="0"/>
-          <Component id="lblTitolo" min="-2" max="-2" attributes="0"/>
-          <EmptySpace min="22" pref="22" max="22" attributes="0"/>
-          <Group type="103" groupAlignment="3" attributes="0">
-            <Component id="lblNickname" min="-2" max="-2" attributes="0"/>
-            <Component id="txtNickname" min="-2" pref="28" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace min="24" pref="24" max="24" attributes="0"/>
+              <Component id="lblTitolo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="22" pref="22" max="22" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblNickname" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtNickname" min="-2" pref="28" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="14" pref="14" max="14" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblLivello" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtLivello" min="-2" pref="28" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="14" pref="14" max="14" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblIP" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtIP" min="-2" pref="28" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="20" pref="20" max="20" attributes="0"/>
+              <Component id="btnCerca" min="-2" pref="34" max="-2" attributes="0"/>
+              <EmptySpace min="18" pref="18" max="18" attributes="0"/>
+              <Component id="lblStato" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="12" pref="12" max="12" attributes="0"/>
+              <Component id="scrollRisultato" pref="145" max="32767" attributes="0"/>
+              <EmptySpace min="24" pref="24" max="24" attributes="0"/>
           </Group>
-          <EmptySpace min="14" pref="14" max="14" attributes="0"/>
-          <Group type="103" groupAlignment="3" attributes="0">
-            <Component id="lblLivello" min="-2" max="-2" attributes="0"/>
-            <Component id="txtLivello" min="-2" pref="28" max="-2" attributes="0"/>
-          </Group>
-          <EmptySpace min="14" pref="14" max="14" attributes="0"/>
-          <Group type="103" groupAlignment="3" attributes="0">
-            <Component id="lblIP" min="-2" max="-2" attributes="0"/>
-            <Component id="txtIP" min="-2" pref="28" max="-2" attributes="0"/>
-          </Group>
-          <EmptySpace min="20" pref="20" max="20" attributes="0"/>
-          <Component id="btnCerca" min="-2" pref="34" max="-2" attributes="0"/>
-          <EmptySpace min="18" pref="18" max="18" attributes="0"/>
-          <Component id="lblStato" min="-2" max="-2" attributes="0"/>
-          <EmptySpace min="12" pref="12" max="12" attributes="0"/>
-          <Component id="scrollRisultato" pref="145" max="32767" attributes="0"/>
-          <EmptySpace min="24" pref="24" max="24" attributes="0"/>
-        </Group>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -88,28 +90,47 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblNickname">
-      <Properties><Property name="text" type="java.lang.String" value="Nickname:"/></Properties>
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nickname:"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblLivello">
-      <Properties><Property name="text" type="java.lang.String" value="Livello:"/></Properties>
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Livello:"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblIP">
-      <Properties><Property name="text" type="java.lang.String" value="IP Server:"/></Properties>
+      <Properties>
+        <Property name="text" type="java.lang.String" value="IP Server:"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblStato">
-      <Properties><Property name="text" type="java.lang.String" value="Stato: Non connesso (porta 50000)"/></Properties>
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Stato: Non connesso (porta 50000)"/>
+      </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtNickname"/>
-    <Component class="javax.swing.JTextField" name="txtLivello"/>
+    <Component class="javax.swing.JTextField" name="txtNickname">
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtLivello">
+    </Component>
     <Component class="javax.swing.JTextField" name="txtIP">
-      <Properties><Property name="text" type="java.lang.String" value="127.0.0.1"/></Properties>
+      <Properties>
+        <Property name="text" type="java.lang.String" value="127.0.0.1"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnCerca">
-      <Properties><Property name="text" type="java.lang.String" value="CERCA PARTITA"/></Properties>
-      <Events><EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCercaActionPerformed"/></Events>
+      <Properties>
+        <Property name="text" type="java.lang.String" value="CERCA PARTITA"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCercaActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="scrollRisultato">
-      <AuxValues><AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/></AuxValues>
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="txtRisultato">
