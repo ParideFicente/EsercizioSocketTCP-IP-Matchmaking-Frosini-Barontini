@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="MatchMaking PvP - Server"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+        <Group type="102" attributes="0">
+          <EmptySpace min="24" pref="24" max="24" attributes="0"/>
+          <Group type="103" groupAlignment="0" attributes="0">
+            <Component id="lblTitolo" min="-2" max="-2" attributes="0"/>
+            <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                <Component id="lblNGG" min="-2" max="-2" attributes="0"/>
+                <Component id="lblDML" min="-2" max="-2" attributes="0"/>
+                <Component id="lblPorta" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="22" pref="22" max="22" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                <Component id="txtNGG" pref="340" max="32767" attributes="0"/>
+                <Component id="txtDML" max="32767" attributes="0"/>
+                <Component id="txtPorta" max="32767" attributes="0"/>
+              </Group>
+            </Group>
+            <Group type="102" attributes="0"><Component id="btnAvvia" min="-2" max="-2" attributes="0"/><EmptySpace min="16" pref="16" max="16" attributes="0"/><Component id="btnFerma" min="-2" max="-2" attributes="0"/></Group>
+            <Component id="lblStato" min="-2" max="-2" attributes="0"/>
+            <Component id="scrollEventi" pref="464" max="32767" attributes="0"/>
+          </Group>
+          <EmptySpace min="24" pref="24" max="24" attributes="0"/>
+        </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+        <Group type="102" attributes="0">
+          <EmptySpace min="24" pref="24" max="24" attributes="0"/>
+          <Component id="lblTitolo" min="-2" max="-2" attributes="0"/>
+          <EmptySpace min="22" pref="22" max="22" attributes="0"/>
+          <Group type="103" groupAlignment="3" attributes="0">
+            <Component id="lblNGG" min="-2" max="-2" attributes="0"/>
+            <Component id="txtNGG" min="-2" pref="28" max="-2" attributes="0"/>
+          </Group>
+          <EmptySpace min="14" pref="14" max="14" attributes="0"/>
+          <Group type="103" groupAlignment="3" attributes="0">
+            <Component id="lblDML" min="-2" max="-2" attributes="0"/>
+            <Component id="txtDML" min="-2" pref="28" max="-2" attributes="0"/>
+          </Group>
+          <EmptySpace min="14" pref="14" max="14" attributes="0"/>
+          <Group type="103" groupAlignment="3" attributes="0">
+            <Component id="lblPorta" min="-2" max="-2" attributes="0"/>
+            <Component id="txtPorta" min="-2" pref="28" max="-2" attributes="0"/>
+          </Group>
+          <EmptySpace min="20" pref="20" max="20" attributes="0"/>
+          <Group type="103" groupAlignment="3" attributes="0"><Component id="btnAvvia" min="-2" pref="34" max="-2" attributes="0"/><Component id="btnFerma" min="-2" pref="34" max="-2" attributes="0"/></Group>
+          <EmptySpace min="18" pref="18" max="18" attributes="0"/>
+          <Component id="lblStato" min="-2" max="-2" attributes="0"/>
+          <EmptySpace min="12" pref="12" max="12" attributes="0"/>
+          <Component id="scrollEventi" pref="145" max="32767" attributes="0"/>
+          <EmptySpace min="24" pref="24" max="24" attributes="0"/>
+        </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="lblTitolo">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="SansSerif" size="20" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="SERVER MATCHMAKING PVP"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblNGG">
+      <Properties><Property name="text" type="java.lang.String" value="Giocatori per gruppo:"/></Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDML">
+      <Properties><Property name="text" type="java.lang.String" value="Differenza max livelli:"/></Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblPorta">
+      <Properties><Property name="text" type="java.lang.String" value="Porta TCP:"/></Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblStato">
+      <Properties><Property name="text" type="java.lang.String" value="Stato: Server spento"/></Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtNGG"><Properties><Property name="text" type="java.lang.String" value="2"/></Properties></Component>
+    <Component class="javax.swing.JTextField" name="txtDML"><Properties><Property name="text" type="java.lang.String" value="3"/></Properties></Component>
+    <Component class="javax.swing.JTextField" name="txtPorta">
+      <Properties><Property name="text" type="java.lang.String" value="50000"/><Property name="editable" type="boolean" value="false"/></Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnFerma"><Properties><Property name="text" type="java.lang.String" value="ARRESTA SERVER"/></Properties><Events><EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFermaActionPerformed"/></Events></Component>
+    <Component class="javax.swing.JButton" name="btnAvvia">
+      <Properties><Property name="text" type="java.lang.String" value="AVVIA SERVER"/></Properties>
+      <Events><EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAvviaActionPerformed"/></Events>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="scrollEventi">
+      <AuxValues><AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/></AuxValues>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="txtEventi">
+          <Properties>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="rows" type="int" value="5"/>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="lineWrap" type="boolean" value="true"/>
+            <Property name="wrapStyleWord" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

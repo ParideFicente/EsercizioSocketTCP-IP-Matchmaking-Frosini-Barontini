@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package matchmaking;
 
 import java.net.ServerSocket;
@@ -12,131 +8,148 @@ import java.util.Scanner;
 public class Server {
 
     static ArrayList<Giocatore> giocatori = new ArrayList<>();    //lista dei giocatori in attesa
-
     static int ngg;                                              //numero di giocatori per gruppo
     static int dml;                                              //differenza massima di livello
+    static ServerSocket socketAccettazione;
+    static ServerGUI finestra;
+    static boolean attivo = false;
 
     public static void main(String[] args) {
-
         Scanner tastiera = new Scanner(System.in);
-
         System.out.print("Inserisci numero giocatori per gruppo: ");
-        ngg = tastiera.nextInt();                                 //numero di giocatori per partita
-
+        int numero = tastiera.nextInt();
         System.out.print("Inserisci differenza massima di livello: ");
-        dml = tastiera.nextInt();                                 //differenza massima tra i livelli
+        int differenza = tastiera.nextInt();
+        avviaConParametri(numero, differenza, null);             //avvio da terminale
+    }
 
-        if (ngg < 2 || dml < 0) {
+    public static void avviaConParametri(int numero, int differenza, ServerGUI gui) {
+        if (numero < 2 || differenza < 0) {
             System.out.println("Parametri non validi!");
+            if (gui != null) gui.aggiornaStato(false);
             return;
         }
 
-        try {
-            ServerSocket socketAccettazione = new ServerSocket(50000);          //creazione del server
-
-            System.out.println("Server avviato");
-
-            while (true) {                                       //mantiene il server sempre attivo
-
-                System.out.println("In attesa di un client...");
-
-                Socket s = socketAccettazione.accept();           //attende un client
-
-                System.out.println("Client connesso: " + s.getInetAddress());
-
-                Giocatore giocatore = new Giocatore(s);           //crea un giocatore
-
-                Thread t = new Thread(giocatore);                  //crea il thread
-                t.start();                                        //avvia il thread
+        synchronized (Server.class) {
+            if (attivo) {
+                if (gui != null) gui.aggiungiEvento("Server gia avviato");
+                return;
             }
+            ngg = numero;
+            dml = differenza;
+            finestra = gui;
+            try {
+                socketAccettazione = new ServerSocket(50000);   //creazione del server
+                attivo = true;
+            } catch (Exception e) {
+                messaggio("Errore avvio: " + e.getMessage());
+                if (gui != null) gui.aggiornaStato(false);
+                return;
+            }
+        }
 
+        messaggio("Server avviato sulla porta 50000");
+        messaggio("NGG: " + ngg + " - DML: " + dml);
+        if (gui != null) gui.aggiornaStato(true);
+
+        try {
+            while (true) {                                    //mantiene il server in ascolto
+                Socket s = socketAccettazione.accept();         //attende un client
+                synchronized (Server.class) {
+                    if (!attivo) {
+                        s.close();
+                        break;
+                    }
+                }
+                messaggio("Client connesso: " + s.getInetAddress());
+                Giocatore giocatore = new Giocatore(s);         //crea un giocatore
+                Thread t = new Thread(giocatore);               //crea il thread
+                t.start();                                      //avvia il thread
+            }
         } catch (Exception e) {
-            System.out.println("Errore: " + e.getMessage());
+            if (attivo) messaggio("Errore: " + e.getMessage());
+        } finally {
+            ferma();
         }
     }
 
+    public static void ferma() {
+        synchronized (Server.class) {
+            if (!attivo) return;
+            attivo = false;
+            try {
+                socketAccettazione.close();                     //ferma l'ascolto
+            } catch (Exception e) {
+                messaggio("Errore chiusura server: " + e.getMessage());
+            }
+            for (int i = 0; i < giocatori.size(); i++) {
+                try {
+                    giocatori.get(i).s.close();                  //chiude i client in attesa
+                } catch (Exception e) {
+                    messaggio("Errore chiusura client: " + e.getMessage());
+                }
+            }
+            giocatori.clear();                                  //svuota la lista d'attesa
+            messaggio("Server arrestato");
+            if (finestra != null) finestra.aggiornaStato(false);
+        }
+    }
+
+    public static void messaggio(String testo) {
+        System.out.println(testo);
+        ServerGUI gui = finestra;
+        if (gui != null) gui.aggiungiEvento(testo);             //mostra gli eventi nella GUI
+    }
+
     public static synchronized void aggiungiGiocatore(Giocatore g) {
-
-        giocatori.add(g);                                        //aggiunge il giocatore alla lista
-
-        System.out.println("Giocatore aggiunto: " + g.nickname);
-        System.out.println("Giocatori in attesa: " + giocatori.size());
-
-        controllaPartite();                                      //controlla se si può creare una partita
+        if (!attivo || g.s.isClosed()) return;
+        giocatori.add(g);                                       //aggiunge il giocatore alla lista
+        messaggio("Giocatore aggiunto: " + g.nickname + " (livello " + g.livello + ")");
+        messaggio("Giocatori in attesa: " + giocatori.size());
+        controllaPartite();                                     //controlla se si può creare una partita
     }
 
     public static synchronized void rimuoviGiocatore(Giocatore g) {
-
-        if (giocatori.remove(g)) {                               //rimuove il giocatore se presente
-
-            System.out.println("Giocatore disconnesso: " + g.nickname);
-            System.out.println("Giocatori in attesa: " + giocatori.size());
+        if (giocatori.remove(g)) {                               //rimuove il giocatore disconnesso
+            messaggio("Giocatore disconnesso: " + g.nickname);
+            messaggio("Giocatori in attesa: " + giocatori.size());
         }
     }
 
     public static synchronized void controllaPartite() {
-
         boolean partitaCreata = true;
-
         while (partitaCreata) {                                  //controlla se si possono creare altre partite
-
             partitaCreata = false;
-
             for (int i = 0; i < giocatori.size(); i++) {
-
-                ArrayList<Giocatore> gruppo = new ArrayList<>();  //lista dei giocatori della partita
-
+                ArrayList<Giocatore> gruppo = new ArrayList<>(); //giocatori della partita
                 Giocatore primo = giocatori.get(i);
                 gruppo.add(primo);
-
                 for (int j = 0; j < giocatori.size(); j++) {
-
                     Giocatore altro = giocatori.get(j);
-
-                    if (altro != primo &&
-                        altro.livello >= primo.livello &&
+                    if (altro != primo && altro.livello >= primo.livello &&
                         (long) altro.livello - primo.livello <= dml) {
-
                         gruppo.add(altro);                       //aggiunge un giocatore compatibile
                     }
-
-                    if (gruppo.size() == ngg) {
-                        break;
-                    }
+                    if (gruppo.size() == ngg) break;
                 }
-
                 if (gruppo.size() == ngg) {
-
-                    System.out.println("Partita trovata!");
-
-                    //invia la lista dei compagni ai giocatori
+                    messaggio("Partita trovata!");
                     for (int k = 0; k < gruppo.size(); k++) {
-
                         Giocatore g = gruppo.get(k);
-
-                        String messaggio = "Partita trovata! Compagni: ";
-
+                        String testo = "Partita trovata! Compagni: ";
                         for (int h = 0; h < gruppo.size(); h++) {
-
                             Giocatore compagno = gruppo.get(h);
-
                             if (compagno != g) {
-                                messaggio += compagno.nickname + " - "
-                                          + compagno.ip + " - Livello "
-                                          + compagno.livello + "; ";
+                                testo += compagno.nickname + " - " + compagno.ip
+                                       + " - Livello " + compagno.livello + "; ";
                             }
                         }
-
-                        g.inviaMessaggio(messaggio);
+                        g.inviaMessaggio(testo);                 //invia i compagni al client
                     }
-
-                    //rimuove i giocatori che hanno trovato una partita
                     for (int k = 0; k < gruppo.size(); k++) {
-                        giocatori.remove(gruppo.get(k));
+                        giocatori.remove(gruppo.get(k));         //rimuove i giocatori abbinati
                     }
-
-                    System.out.println("Giocatori rimasti in attesa: " + giocatori.size());
-
+                    messaggio("Giocatori rimasti in attesa: " + giocatori.size());
                     partitaCreata = true;
                     break;
                 }
