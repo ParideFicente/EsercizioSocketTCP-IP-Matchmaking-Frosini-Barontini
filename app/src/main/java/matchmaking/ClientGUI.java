@@ -148,12 +148,9 @@ private void cercaPartita() {
         });
     }
 
-    /**
-     * Questo metodo e generato dal GUI Builder di NetBeans.
-     * Per cambiare il layout usare la scheda Design.
-     */
+    
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
     private void initComponents() {
 
         lblTitolo = new javax.swing.JLabel();
@@ -171,7 +168,7 @@ private void cercaPartita() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MatchMaking PvP - Client");
 
-        lblTitolo.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
+        lblTitolo.setFont(new java.awt.Font("SansSerif", 1, 20)); 
         lblTitolo.setText("MATCHMAKING PVP");
 
         lblNickname.setText("Nickname:");
@@ -248,11 +245,11 @@ private void cercaPartita() {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void btnCercaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCercaActionPerformed
+    private void btnCercaActionPerformed(java.awt.event.ActionEvent evt) {
         cercaPartita();
-    }//GEN-LAST:event_btnCercaActionPerformed
+    }
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -263,7 +260,7 @@ private void cercaPartita() {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    
     private javax.swing.JButton btnCerca;
     private javax.swing.JLabel lblIP;
     private javax.swing.JLabel lblLivello;
@@ -275,5 +272,5 @@ private void cercaPartita() {
     private javax.swing.JTextField txtLivello;
     private javax.swing.JTextField txtNickname;
     private javax.swing.JTextArea txtRisultato;
-    // End of variables declaration//GEN-END:variables
+    
 }
