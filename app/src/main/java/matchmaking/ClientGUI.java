@@ -14,77 +14,107 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     //avvia la ricerca senza bloccare la finestra
-    private void cercaPartita() {
-        final String nickname = txtNickname.getText().trim();
-        final String ipServer = txtIP.getText().trim();
-        final int livello;
+private void cercaPartita() {
 
-        if (nickname.isEmpty() || ipServer.isEmpty()) {
-            lblStato.setText("Stato: Inserisci nickname e IP del server");
+    final String nickname = txtNickname.getText().trim();
+    final String ipServer = txtIP.getText().trim();
+    final int livello;
+
+    if (nickname.isEmpty() || ipServer.isEmpty()) {
+        lblStato.setText("Stato: Inserisci nickname e IP del server");
+        return;
+    }
+
+    try {
+        livello = Integer.parseInt(txtLivello.getText().trim());
+
+        if (livello < 0) {
+            lblStato.setText("Stato: Il livello non puo essere negativo");
             return;
         }
 
-        try {
-            livello = Integer.parseInt(txtLivello.getText().trim());
-            if (livello < 0) {
-                lblStato.setText("Stato: Il livello non puo essere negativo");
-                return;
-            }
-        } catch (NumberFormatException e) {
-            lblStato.setText("Stato: Inserisci un livello numerico");
-            return;
-        }
+    } catch (NumberFormatException e) {
+        lblStato.setText("Stato: Inserisci un livello numerico");
+        return;
+    }
 
-        btnCerca.setEnabled(false);
-        txtNickname.setEnabled(false);
-        txtLivello.setEnabled(false);
-        txtIP.setEnabled(false);
-        lblStato.setText("Stato: Connessione in corso...");
-        txtRisultato.setText("");
+    btnCerca.setEnabled(false);
+    txtNickname.setEnabled(false);
+    txtLivello.setEnabled(false);
+    txtIP.setEnabled(false);
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Socket s = null;
-                try {
-                    s = new Socket(ipServer, 50000);                 //connessione al server
+    lblStato.setText("Stato: Connessione in corso...");
+    txtRisultato.setText("");
 
-                    PrintWriter out = new PrintWriter(s.getOutputStream(), true); //stream per inviare i dati
-                    BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+    Thread t = new Thread(new Runnable() {
 
-                    String benvenuto = in.readLine();                //legge il messaggio del server
-                    if (benvenuto == null) {
-                        aggiornaFinestra("Stato: Server disconnesso", "Connessione chiusa dal server.", true);
-                        return;
-                    }
+        @Override
+        public void run() {
 
-                    out.println(nickname);                           //invia il nickname
-                    out.println(livello);                             //invia il livello
+            Socket s = null;
 
-                    aggiornaFinestra("Stato: In attesa di una partita...", benvenuto, false);
+            try {
+                s = new Socket(ipServer, 50000);                 //connessione al server
 
-                    String risposta = in.readLine();                 //attende il risultato del matchmaking
-                    if (risposta != null) {
-                        aggiornaFinestra("Stato: Ricerca terminata", risposta, true);
+                PrintWriter out = new PrintWriter(s.getOutputStream(), true); //stream per inviare i dati
+                BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+
+                String benvenuto = in.readLine();                //legge il messaggio del server
+
+                if (benvenuto == null) {
+                    aggiornaFinestra("Stato: Server disconnesso",
+                            "Connessione chiusa dal server.", true);
+                    return;
+                }
+
+                out.println(nickname);                           //invia il nickname
+                out.println(livello);                             //invia il livello
+
+                aggiornaFinestra("Stato: In attesa di una partita...", benvenuto, false);
+
+                String risposta;
+
+                while ((risposta = in.readLine()) != null) {     //attende il risultato del matchmaking
+
+                    if (risposta.equals("VERIFICA")) {
+
+                        out.println("OK");                       //conferma di essere ancora collegato
+
                     } else {
-                        aggiornaFinestra("Stato: Server disconnesso", "Connessione terminata senza partita.", true);
+                        break;
                     }
+                }
 
-                } catch (Exception e) {
-                    aggiornaFinestra("Stato: Errore di connessione", e.getMessage(), true);
-                } finally {
-                    if (s != null) {
-                        try {
-                            s.close();                               //chiusura della connessione
-                        } catch (Exception e) {
-                            //la connessione e gia terminata
-                        }
+                if (risposta != null) {
+
+                    aggiornaFinestra("Stato: Ricerca terminata", risposta, true);
+
+                } else {
+
+                    aggiornaFinestra("Stato: Server disconnesso",
+                            "Connessione terminata senza partita.", true);
+                }
+
+            } catch (Exception e) {
+
+                aggiornaFinestra("Stato: Errore di connessione", e.getMessage(), true);
+
+            } finally {
+
+                if (s != null) {
+
+                    try {
+                        s.close();                               //chiusura della connessione
+                    } catch (Exception e) {
+                        //la connessione e gia terminata
                     }
                 }
             }
-        });
-        t.start();                                                    //avvia il thread
-    }
+        }
+    });
+
+    t.start();                                                    //avvia il thread
+}
 
     //aggiorna i componenti grafici dal thread della finestra
     private void aggiornaFinestra(final String stato, final String risultato, final boolean finito) {

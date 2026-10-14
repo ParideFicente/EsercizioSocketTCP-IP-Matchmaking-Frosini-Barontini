@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class Giocatore implements Runnable {
 
@@ -17,10 +18,17 @@ public class Giocatore implements Runnable {
 
     Socket s;                                 //connessione del giocatore
     PrintWriter out;                          //stream per inviare messaggi
-    boolean partitaTrovata = false;           //indica se il giocatore ha trovato una partita
 
-    public Giocatore(Socket s) {
+    boolean partitaTrovata = false;           //indica se il giocatore ha trovato una partita
+    boolean confermato = false;               //indica se il giocatore ha risposto
+    ArrayList<Giocatore> gruppoVerifica;      //gruppo in fase di verifica
+
+    int sessione;                             //avvio del server a cui appartiene il giocatore
+
+    public Giocatore(Socket s, int sessione) {
+
         this.s = s;
+        this.sessione = sessione;
         this.ip = s.getInetAddress().getHostAddress();
     }
 
@@ -28,12 +36,14 @@ public class Giocatore implements Runnable {
     public void run() {
 
         try {
-            out = new PrintWriter(s.getOutputStream(), true);       //creazione degli stream
+            PrintWriter out = new PrintWriter(s.getOutputStream(), true);       //creazione degli stream
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
-            out.println("Benvenuto client!");                       //invia un messaggio al client
+            this.out = out;
 
-            nickname = in.readLine();                               //legge il nickname del giocatore
+            out.println("Benvenuto client!");                    //invia un messaggio al client
+
+            nickname = in.readLine();                            //legge il nickname del giocatore
 
             if (nickname == null) {
                 return;
@@ -45,47 +55,56 @@ public class Giocatore implements Runnable {
                 return;
             }
 
-            livello = Integer.parseInt(datoLivello);                //legge il livello del giocatore
+            //controlla che i dati del giocatore siano validi
+            if (nickname.trim().isEmpty() || livello < 0) {
+            out.println("Dati non validi");
+            return;
+            }
 
-            System.out.println("Nickname: " + nickname);
-            System.out.println("Livello: " + livello);
-            System.out.println("IP: " + ip);
+            Server.messaggio("Nickname: " + nickname);
+            Server.messaggio("Livello: " + livello);
+            Server.messaggio("IP: " + ip);
 
-            Server.aggiungiGiocatore(this);                          //aggiunge il giocatore al server
+            if (!Server.aggiungiGiocatore(this)) {               //aggiunge il giocatore alla lista
+                return;
+            }
 
-            while (in.readLine() != null) {                          //attende finche il client rimane connesso
+            String messaggio;
+
+            while ((messaggio = in.readLine()) != null) {       //attende i messaggi del client
+
+                if (messaggio.equals("OK")) {
+
+                    Server.confermaGiocatore(this);              //conferma che il client e collegato
+                }
             }
 
         } catch (Exception e) {
 
-            if (!partitaTrovata) {
-                System.out.println("Errore: " + e.getMessage());
+            if (Server.deveMostrareErrore(this)) {
+                Server.messaggio("Errore client: " + e.getMessage());
             }
 
         } finally {
 
-            if (!partitaTrovata) {
-                Server.rimuoviGiocatore(this);                       //rimuove il giocatore disconnesso
-            }
+            Server.rimuoviGiocatore(this);                       //rimuove il giocatore se si disconnette
 
             try {
-                s.close();                                          //chiusura della connessione
+                s.close();                                      //chiusura della connessione
             } catch (Exception e) {
-                System.out.println("Errore chiusura: " + e.getMessage());
+                Server.messaggio("Errore chiusura: " + e.getMessage());
             }
         }
     }
 
     public void inviaMessaggio(String messaggio) {
 
-        partitaTrovata = true;                                       //indica che la partita e stata trovata
-
-        out.println(messaggio);                                      //invia il risultato al client
+        out.println(messaggio);                                  //invia il risultato al client
 
         try {
-            s.close();                                              //chiude la connessione dopo il matchmaking
+            s.close();                                          //chiude la connessione dopo il matchmaking
         } catch (Exception e) {
-            System.out.println("Errore chiusura: " + e.getMessage());
+            Server.messaggio("Errore chiusura: " + e.getMessage());
         }
     }
 }

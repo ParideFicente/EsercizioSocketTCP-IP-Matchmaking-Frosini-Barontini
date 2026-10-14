@@ -24,27 +24,36 @@ public class Client {
             PrintWriter out = new PrintWriter(s.getOutputStream(), true);       //creazione degli stream per comunicare con il server
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
-            String messaggio = in.readLine();                //legge il messaggio inviato dal server
+            String messaggio = in.readLine();                 //legge il messaggio inviato dal server
 
             System.out.println("Il server dice: " + messaggio);
 
-            Scanner tastiera = new Scanner(System.in);       //lettura dei dati dalla tastiera
+            Scanner tastiera = new Scanner(System.in);        //lettura dei dati dalla tastiera
 
             System.out.print("Inserisci nickname: ");
-            String nickname = tastiera.nextLine();           //nickname del giocatore
+            String nickname = tastiera.nextLine();            //nickname del giocatore
 
             System.out.print("Inserisci livello: ");
-            int livello = tastiera.nextInt();                //livello del giocatore
+            int livello = tastiera.nextInt();                 //livello del giocatore
 
             out.println(nickname);                           //invia il nickname al server
             out.println(livello);                             //invia il livello al server
 
             System.out.println("In attesa di altri giocatori...");
 
-            String risposta = in.readLine();                 //attende la risposta del server
+            String risposta;
 
-            if (risposta != null) {
-                System.out.println("Il server dice: " + risposta);
+            while ((risposta = in.readLine()) != null) {      //attende il risultato del matchmaking
+
+                if (risposta.equals("VERIFICA")) {
+
+                    out.println("OK");                        //conferma di essere ancora collegato
+
+                } else {
+
+                    System.out.println("Il server dice: " + risposta);
+                    break;
+                }
             }
 
             s.close();                                       //chiusura della connessione

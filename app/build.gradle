@@ -6,26 +6,10 @@
  */
 
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
 }
 
-repositories {
-    // Use Maven Central for resolving dependencies.
-    mavenCentral()
-}
-
-dependencies {
-    // Use JUnit Jupiter for testing.
-    testImplementation libs.junit.jupiter
-
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    // This dependency is used by the application.
-    implementation libs.guava
-}
-
-// Apply a specific Java toolchain to ease working on different environments.
+//il progetto utilizza soltanto le librerie standard di Java
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(26)
@@ -34,9 +18,4 @@ java {
 
 application {
     mainClass = 'matchmaking.Server'
-}
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
 }
