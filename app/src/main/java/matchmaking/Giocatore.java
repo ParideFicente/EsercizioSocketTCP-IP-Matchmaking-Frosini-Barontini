@@ -55,10 +55,17 @@ public class Giocatore implements Runnable {
                 return;
             }
 
-            //controlla che i dati del giocatore siano validi
+            try {
+                livello = Integer.parseInt(datoLivello);          //converte il livello in numero
+            } catch (NumberFormatException e) {
+                out.println("Dati non validi");
+                return;
+            }
+
+            //controlla i dati prima di aggiungere il giocatore
             if (nickname.trim().isEmpty() || livello < 0) {
-            out.println("Dati non validi");
-            return;
+                out.println("Dati non validi");
+                return;
             }
 
             Server.messaggio("Nickname: " + nickname);

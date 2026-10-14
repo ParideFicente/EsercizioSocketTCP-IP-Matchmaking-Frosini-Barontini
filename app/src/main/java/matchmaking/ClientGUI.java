@@ -17,11 +17,26 @@ public class ClientGUI extends javax.swing.JFrame {
 private void cercaPartita() {
 
     final String nickname = txtNickname.getText().trim();
-    final String ipServer = txtIP.getText().trim();
+    final String indirizzo = txtIP.getText().trim();
+    final String ipServer;
+    final int porta;
     final int livello;
 
-    if (nickname.isEmpty() || ipServer.isEmpty()) {
-        lblStato.setText("Stato: Inserisci nickname e IP del server");
+    if (nickname.isEmpty()) {
+        lblStato.setText("Stato: Inserisci il nickname");
+        return;
+    }
+
+    try {
+        int separatore = indirizzo.lastIndexOf(':');
+        ipServer = indirizzo.substring(0, separatore).trim();
+        porta = Integer.parseInt(indirizzo.substring(separatore + 1).trim());
+
+        if (ipServer.isEmpty() || porta < 1 || porta > 65535) {
+            throw new IllegalArgumentException();
+        }
+    } catch (Exception e) {
+        lblStato.setText("Stato: Inserisci IP:porta (es. 127.0.0.1:50000)");
         return;
     }
 
@@ -54,7 +69,7 @@ private void cercaPartita() {
             Socket s = null;
 
             try {
-                s = new Socket(ipServer, 50000);                 //connessione al server
+                s = new Socket(ipServer, porta);                 //connessione al server
 
                 PrintWriter out = new PrintWriter(s.getOutputStream(), true); //stream per inviare i dati
                 BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -163,11 +178,11 @@ private void cercaPartita() {
 
         lblLivello.setText("Livello:");
 
-        lblIP.setText("IP Server:");
+        lblIP.setText("IP e porta:");
 
-        lblStato.setText("Stato: Non connesso (porta 50000)");
+        lblStato.setText("Stato: Non connesso");
 
-        txtIP.setText("127.0.0.1");
+        txtIP.setText("127.0.0.1:50000");
 
         btnCerca.setText("CERCA PARTITA");
         btnCerca.addActionListener(new java.awt.event.ActionListener() {

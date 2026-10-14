@@ -15,9 +15,22 @@ public class Client {
     public static void main(String[] args) {
 
         try {
+            Scanner tastiera = new Scanner(System.in);        //lettura dei dati dalla tastiera
+
+            System.out.print("Inserisci IP del server: ");
+            String ipServer = tastiera.nextLine().trim();
+
+            System.out.print("Inserisci porta del server: ");
+            int porta = Integer.parseInt(tastiera.nextLine().trim());
+
+            if (ipServer.isEmpty() || porta < 1 || porta > 65535) {
+                System.out.println("IP o porta non validi");
+                return;
+            }
+
             System.out.println("Connessione al server...");
 
-            Socket s = new Socket("127.0.0.1", 50000);        //connessione al server tramite IP e porta
+            Socket s = new Socket(ipServer, porta);            //connessione al server tramite IP e porta
 
             System.out.println("Connesso al server!");
 
@@ -27,8 +40,6 @@ public class Client {
             String messaggio = in.readLine();                 //legge il messaggio inviato dal server
 
             System.out.println("Il server dice: " + messaggio);
-
-            Scanner tastiera = new Scanner(System.in);        //lettura dei dati dalla tastiera
 
             System.out.print("Inserisci nickname: ");
             String nickname = tastiera.nextLine();            //nickname del giocatore
